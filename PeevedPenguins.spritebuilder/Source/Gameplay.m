@@ -12,11 +12,14 @@
 
 CCPhysicsNode *_physicsnode;
 CCNode *_catapultarm;
+CCNode *_levelnode;
 
 }
 
 - (void)didLoadFromCCB {
     self.userInteractionEnabled = YES;
+    CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
+    [_levelnode addChild:level];
 }
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
