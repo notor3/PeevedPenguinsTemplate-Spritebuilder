@@ -26,6 +26,10 @@ CCNode *_levelnode;
     [self launchPenguin];
 }
 
+- (void)retry {
+    [[CCDirector sharedDirector] replaceScene:[CCBReader loadAsScene:@"Gameplay"]];
+}
+
 - (void)launchPenguin {
     CCNode *penguin = [CCBReader load:@"Penguin"];
     penguin.position = ccpAdd(_catapultarm.position, ccp(16, 140));
