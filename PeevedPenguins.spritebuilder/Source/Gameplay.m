@@ -43,6 +43,7 @@ CCActionFollow *follow;
     self.position = ccp(0,0);
     follow = [CCActionFollow actionWithTarget:penguin
                                 worldBoundary:self.boundingBox];
+    [self runAction:follow];
 }
 
 @end
