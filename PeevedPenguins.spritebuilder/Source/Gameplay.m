@@ -13,6 +13,7 @@
 CCPhysicsNode *_physicsnode;
 CCNode *_catapultarm;
 CCNode *_levelnode;
+CCActionFollow *follow;
 
 }
 
@@ -26,6 +27,10 @@ CCNode *_levelnode;
     [self launchPenguin];
 }
 
+- (void) update:(CCTime)delta {
+    [follow step:delta];
+}
+
 - (void)launchPenguin {
     CCNode *penguin = [CCBReader load:@"Penguin"];
     penguin.position = ccpAdd(_catapultarm.position, ccp(16, 140));
@@ -36,7 +41,8 @@ CCNode *_levelnode;
     [penguin.physicsBody applyForce:force];
     
     self.position = ccp(0,0);
-    CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin worldBoundary:self.boundingBox];
+    follow = [CCActionFollow actionWithTarget:penguin
+                                worldBoundary:self.boundingBox];
 }
 
 @end
