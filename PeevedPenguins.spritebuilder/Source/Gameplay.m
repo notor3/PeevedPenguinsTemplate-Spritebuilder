@@ -9,11 +9,10 @@
 #import "Gameplay.h"
 
 @implementation Gameplay {
-
-CCPhysicsNode *_physicsnode;
-CCNode *_catapultarm;
-CCNode *_levelnode;
-
+    CCPhysicsNode *_physicsnode;
+    CCNode *_catapultarm;
+    CCNode *_levelnode;
+    CCNode *_contentNode;
 }
 
 - (void)didLoadFromCCB {
@@ -41,8 +40,8 @@ CCNode *_levelnode;
     
     self.position = ccp(0,0);
     CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin
-                                worldBoundary:self.boundingBox];
-    [self runAction:follow];
+                                worldBoundary:_contentNode.boundingBox];
+    [_contentNode runAction:follow];
 }
 
 @end
