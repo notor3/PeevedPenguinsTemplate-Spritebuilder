@@ -41,7 +41,7 @@
     self.position = ccp(0,0);
     CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin
                                 worldBoundary:_contentNode.boundingBox];
-    [_contentNode runAction:follow];
+    [self runAction:follow];
 }
 
 @end
