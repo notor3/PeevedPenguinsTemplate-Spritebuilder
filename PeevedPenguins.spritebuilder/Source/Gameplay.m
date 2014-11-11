@@ -63,26 +63,19 @@
     if (_mouseJoint != nil) {
         [_mouseJoint invalidate];
         _mouseJoint = nil;
+        
+        [_penguinCatapultJoint invalidate];
+        _penguinCatapultJoint = nil;
+        
+        _currentPenguin.physicsBody.allowsRotation = YES;
+        
+        CCActionFollow *follow = [CCActionFollow actionWithTarget:_currentPenguin worldBoundary:self.boundingBox];
+        [_contentNode runAction:follow];
     }
 }
 
 - (void)retry {
     [[CCDirector sharedDirector] replaceScene:[CCBReader loadAsScene:@"Gameplay"]];
-}
-
-- (void)launchPenguin {
-    CCNode *penguin = [CCBReader load:@"Penguin"];
-    penguin.position = ccpAdd(_catapultarm.position, ccp(16, 140));
-    [_physicsnode addChild:penguin];
-    
-    CGPoint direction = ccp(1, 0);
-    CGPoint force = ccpMult(direction, 8000);
-    [penguin.physicsBody applyForce:force];
-    
-    self.position = ccp(0,0);
-    CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin
-                                                worldBoundary:self.boundingBox];
-    [_contentNode runAction:follow];
 }
 
 @end
