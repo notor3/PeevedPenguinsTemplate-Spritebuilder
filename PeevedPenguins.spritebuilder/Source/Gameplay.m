@@ -22,7 +22,7 @@
     self.userInteractionEnabled = YES;
     CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
     [_levelnode addChild:level];
-    //    _physicsnode.debugDraw = TRUE;
+        _physicsnode.debugDraw = TRUE;
     _pullbackNode.physicsBody.collisionMask = @[];
     _mouseJointNode.physicsBody.collisionMask = @[];
 }
