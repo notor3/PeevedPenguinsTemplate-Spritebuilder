@@ -16,6 +16,8 @@
     CCNode *_pullbackNode;
     CCNode *_mouseJointNode;
     CCPhysicsJoint *_mouseJoint;
+    CCNode *_currentPenguin;
+    CCPhysicsJoint *_penguinCatapultJoint;
 }
 
 - (void)didLoadFromCCB {
@@ -33,6 +35,14 @@
     if (CGRectContainsPoint([_catapultarm boundingBox], touchLocation)) {
         _mouseJointNode.position = touchLocation;
         _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultarm.physicsBody anchorA:ccp(0,0) anchorB:ccp(34,138) restLength:0.0f stiffness:300.0f damping:15.0f];
+        
+        _currentPenguin = [CCBReader load:@"Penguin"];
+        CGPoint penguinPosition = [_catapultarm convertToWorldSpace:ccp(34,138)];
+        _currentPenguin.position = penguinPosition;
+        [_physicsnode addChild:_currentPenguin];
+        _currentPenguin.physicsBody.allowsRotation = NO;
+        
+        _penguinCatapultJoint = [CCPhysicsJoint connectedPivotJointWithBodyA:_currentPenguin.physicsBody bodyB:_catapultarm.physicsBody anchorA:_currentPenguin.anchorPointInPoints];
     }
 }
 
