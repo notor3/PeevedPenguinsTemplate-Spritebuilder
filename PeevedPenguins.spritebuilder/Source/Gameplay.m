@@ -14,18 +14,46 @@
     CCNode *_levelnode;
     CCNode *_contentNode;
     CCNode *_pullbackNode;
+    CCNode *_mouseJointNode;
+    CCPhysicsJoint *_mouseJoint;
 }
 
 - (void)didLoadFromCCB {
     self.userInteractionEnabled = YES;
     CCScene *level = [CCBReader loadAsScene:@"Levels/Level1"];
     [_levelnode addChild:level];
-//    _physicsnode.debugDraw = TRUE;
+    //    _physicsnode.debugDraw = TRUE;
     _pullbackNode.physicsBody.collisionMask = @[];
+    _mouseJointNode.physicsBody.collisionMask = @[];
 }
 
 - (void)touchBegan:(UITouch *)touch withEvent:(UIEvent *)event {
-    [self launchPenguin];
+    CGPoint touchLocation = [touch locationInNode:_contentNode];
+    
+    if (CGRectContainsPoint([_catapultarm boundingBox], touchLocation)) {
+        _mouseJointNode.position = touchLocation;
+        _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultarm.physicsBody anchorA:ccp(0,0) anchorB:ccp(34,138) restLength:0.0f stiffness:3000.0f damping:150.0f];
+    }
+}
+
+- (void)touchMoved:(UITouch *)touch withEvent:(UIEvent *)event {
+    CGPoint touchLocation = [touch locationInNode:_contentNode];
+    _mouseJointNode.position = touchLocation;
+}
+
+- (void)touchEnded:(UITouch *)touch withEvent:(UIEvent *)event {
+    [self releaseCatapult];
+}
+
+- (void)touchCancelled:(UITouch *)touch withEvent:(UIEvent *)event {
+    [self releaseCatapult];
+}
+
+- (void)releaseCatapult {
+    if (_mouseJoint != nil) {
+        [_mouseJoint invalidate];
+        _mouseJoint = nil;
+    }
 }
 
 - (void)retry {
@@ -43,7 +71,7 @@
     
     self.position = ccp(0,0);
     CCActionFollow *follow = [CCActionFollow actionWithTarget:penguin
-                                worldBoundary:self.boundingBox];
+                                                worldBoundary:self.boundingBox];
     [_contentNode runAction:follow];
 }
 
