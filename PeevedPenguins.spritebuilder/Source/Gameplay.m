@@ -32,7 +32,7 @@
     
     if (CGRectContainsPoint([_catapultarm boundingBox], touchLocation)) {
         _mouseJointNode.position = touchLocation;
-        _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultarm.physicsBody anchorA:touchLocation anchorB:ccp(34,138) restLength:0.0f stiffness:3000.0f damping:150.0f];
+        _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultarm.physicsBody anchorA:ccp(0,0) anchorB:touchLocation restLength:0.0f stiffness:3000.0f damping:150.0f];
     }
 }
 
