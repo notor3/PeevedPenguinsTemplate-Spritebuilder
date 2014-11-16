@@ -94,7 +94,10 @@
 }
 
 - (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair penguin:(CCNode *)nodeA seal:(CCNode *)nodeB {
-    CCLOG(@"pingwin walnął fokę!");
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
+    explosion.autoRemoveOnFinish = YES;
+    explosion.position = nodeB.position;
+    [self.parent addChild:explosion];
 }
 
 @end
