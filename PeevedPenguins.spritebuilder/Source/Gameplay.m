@@ -97,7 +97,7 @@
     CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
     explosion.autoRemoveOnFinish = YES;
     explosion.position = nodeB.position;
-    [self.parent addChild:explosion];
+    [nodeB.parent addChild:explosion];
 }
 
 @end
