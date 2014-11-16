@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Apportable. All rights reserved.
 //
 
+#import "CCPhysics+ObjectiveChipmunk.h"
 #import "Gameplay.h"
 
 @implementation Gameplay {
@@ -79,8 +80,17 @@
     [[CCDirector sharedDirector] replaceScene:[CCBReader loadAsScene:@"Gameplay"]];
 }
 
+-(void)sealRemoved:(CCNode *)seal {
+    [seal removeFromParent];
+}
+
 - (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair seal:(CCNode *)nodeA wildcard:(CCNode *)nodeB {
-    CCLOG(@"somthin hit a seal!");
+    float energy = [pair totalKineticEnergy];
+    if (energy > 5000.f) {
+        [[_physicsnode space] addPostStepBlock:^{
+            [self sealRemoved:nodeA];
+        } key:nodeA];
+    }
 }
 
 @end
