@@ -93,4 +93,8 @@
     }
 }
 
+- (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair penguin:(CCNode *)nodeA seal:(CCNode *)nodeB {
+    CCLOG(@"pingwin walnął fokę!");
+}
+
 @end
