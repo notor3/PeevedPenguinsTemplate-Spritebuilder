@@ -94,8 +94,8 @@
 }
 
 - (void)ccPhysicsCollisionPostSolve:(CCPhysicsCollisionPair *)pair penguin:(CCNode *)nodeA seal:(CCNode *)nodeB {
-//    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
-    CCParticleExplosion *explosion = [[CCParticleExplosion alloc] initWithTotalParticles:500];
+    CCParticleSystem *explosion = (CCParticleSystem *)[CCBReader load:@"SealExplosion"];
+//    CCParticleExplosion *explosion = [[CCParticleExplosion alloc] initWithTotalParticles:500];
     explosion.autoRemoveOnFinish = YES;
     explosion.position = nodeB.position;
     [nodeB.parent addChild:explosion];
