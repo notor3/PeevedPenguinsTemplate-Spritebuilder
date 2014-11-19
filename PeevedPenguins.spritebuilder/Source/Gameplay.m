@@ -8,6 +8,7 @@
 
 #import "CCPhysics+ObjectiveChipmunk.h"
 #import "Gameplay.h"
+#import "Penguin.h"
 
 // minimum penguin speed
 static const float MIN_SPEED = 5.f;
@@ -21,7 +22,7 @@ static const float MIN_SPEED = 5.f;
     CCNode *_pullbackNode;
     CCNode *_mouseJointNode;
     CCPhysicsJoint *_mouseJoint;
-    CCNode *_currentPenguin;
+    Penguin *_currentPenguin;
     CCPhysicsJoint *_penguinCatapultJoint;
 	CCActionFollow *_followPenguin;
 }
@@ -43,7 +44,7 @@ static const float MIN_SPEED = 5.f;
         _mouseJointNode.position = touchLocation;
         _mouseJoint = [CCPhysicsJoint connectedSpringJointWithBodyA:_mouseJointNode.physicsBody bodyB:_catapultarm.physicsBody anchorA:ccp(0,0) anchorB:ccp(34,138) restLength:0.0f stiffness:300.0f damping:15.0f];
         
-        _currentPenguin = [CCBReader load:@"Penguin"];
+        _currentPenguin = (Penguin*)[CCBReader load:@"Penguin"];
         CGPoint penguinPosition = [_catapultarm convertToWorldSpace:ccp(34,138)];
         _currentPenguin.position = penguinPosition;
         [_physicsnode addChild:_currentPenguin];
@@ -75,6 +76,7 @@ static const float MIN_SPEED = 5.f;
         _penguinCatapultJoint = nil;
         
         _currentPenguin.physicsBody.allowsRotation = YES;
+        _currentPenguin.launched = YES;
 
 	    _followPenguin = [CCActionFollow actionWithTarget:_currentPenguin worldBoundary:self.boundingBox];
 	    [_contentNode runAction:_followPenguin];
@@ -107,6 +109,10 @@ static const float MIN_SPEED = 5.f;
 }
 
 - (void)update:(CCTime)delta {
+    if (!_currentPenguin.launched) {
+        return;
+    }
+
     float speed = ccpLength(_currentPenguin.physicsBody.velocity);
 	if (speed < MIN_SPEED && speed > 0.1f) {
         CCLOG(@"za wolno - nowy pingu %f", ccpLength(_currentPenguin.physicsBody.velocity));
