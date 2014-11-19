@@ -9,6 +9,10 @@
 #import "CCPhysics+ObjectiveChipmunk.h"
 #import "Gameplay.h"
 
+// minimum penguin speed
+static const float MIN_SPEED = 5.f;
+
+
 @implementation Gameplay {
     CCPhysicsNode *_physicsnode;
     CCNode *_catapultarm;
@@ -19,6 +23,7 @@
     CCPhysicsJoint *_mouseJoint;
     CCNode *_currentPenguin;
     CCPhysicsJoint *_penguinCatapultJoint;
+	CCActionFollow *_followPenguin;
 }
 
 - (void)didLoadFromCCB {
@@ -70,9 +75,9 @@
         _penguinCatapultJoint = nil;
         
         _currentPenguin.physicsBody.allowsRotation = YES;
-        
-        CCActionFollow *follow = [CCActionFollow actionWithTarget:_currentPenguin worldBoundary:self.boundingBox];
-        [_contentNode runAction:follow];
+
+	    _followPenguin = [CCActionFollow actionWithTarget:_currentPenguin worldBoundary:self.boundingBox];
+	    [_contentNode runAction:_followPenguin];
     }
 }
 
@@ -99,6 +104,31 @@
     explosion.autoRemoveOnFinish = YES;
     explosion.position = nodeB.position;
     [nodeB.parent addChild:explosion];
+}
+
+- (void)update:(CCTime)delta {
+	if (ccpLength(_currentPenguin.physicsBody.velocity) < MIN_SPEED) {
+		[self nextAttempt];
+	}
+
+	float xMin = _currentPenguin.boundingBox.origin.x;
+	if (xMin < self.boundingBox.origin.x) {
+		[self nextAttempt];
+		return;
+	}
+
+	float xMax = _currentPenguin.boundingBox.size.width;
+	if (xMax > (self.boundingBox.origin.x + self.boundingBox.size.width)) {
+		[self nextAttempt];
+		return;
+	}
+}
+
+- (void)nextAttempt {
+	_currentPenguin = nil;
+	[_contentNode stopAction:_followPenguin];
+	CCActionMoveTo *actionMoveTo = [CCActionMoveTo actionWithDuration:1.f position:ccp(0,0)];
+	[_contentNode runAction:actionMoveTo];
 }
 
 @end
