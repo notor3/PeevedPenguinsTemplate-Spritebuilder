@@ -108,7 +108,7 @@ static const float MIN_SPEED = 5.f;
 
 - (void)update:(CCTime)delta {
 	if (ccpLength(_currentPenguin.physicsBody.velocity) < MIN_SPEED) {
-        CCLOG(@"za wolno - nowy pingu");
+        CCLOG(@"za wolno - nowy pingu %f", ccpLength(_currentPenguin.physicsBody.velocity));
 		[self nextAttempt];
 	}
 
