@@ -12,7 +12,7 @@
 
 -(void) didLoadFromCCB {
     float delay = (arc4random() % 2000) / 1000.f;
-    [self performSelector:@selector(startPenguin) withObject:nil afterDelay:delay];
+//    [self performSelector:@selector(startPenguin) withObject:nil afterDelay:delay];
 }
 
 - (void)startPenguin {
