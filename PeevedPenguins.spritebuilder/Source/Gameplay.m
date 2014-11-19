@@ -107,7 +107,8 @@ static const float MIN_SPEED = 5.f;
 }
 
 - (void)update:(CCTime)delta {
-	if (ccpLength(_currentPenguin.physicsBody.velocity) < MIN_SPEED) {
+    float speed = ccpLength(_currentPenguin.physicsBody.velocity);
+	if (speed < MIN_SPEED && speed > 0.1f) {
         CCLOG(@"za wolno - nowy pingu %f", ccpLength(_currentPenguin.physicsBody.velocity));
 		[self nextAttempt];
 	}
@@ -119,7 +120,7 @@ static const float MIN_SPEED = 5.f;
 		return;
 	}
 
-	float xMax = _currentPenguin.boundingBox.size.width;
+	float xMax = xMin + _currentPenguin.boundingBox.size.width;
 	if (xMax > (self.boundingBox.origin.x + self.boundingBox.size.width)) {
         CCLOG(@"wyleciał w prawo - nowy pingu");
 		[self nextAttempt];
